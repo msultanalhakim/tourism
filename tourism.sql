@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 05 Des 2023 pada 15.17
+-- Waktu pembuatan: 08 Des 2023 pada 13.36
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -144,8 +144,17 @@ CREATE TABLE `users` (
   `id_user` int(11) NOT NULL,
   `username` varchar(50) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
-  `level` enum('Administrator','Visitor') DEFAULT NULL
+  `level` enum('Administrator','Visitor') DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `users`
+--
+
+INSERT INTO `users` (`id_user`, `username`, `password`, `level`, `email`) VALUES
+(1, 'rian', '7d30dd3e1bc962e890494ab50ab8c8a9', 'Visitor', 'alriansr@gmail.com'),
+(2, 'syaiful', 'fea55d95c4e1ec48b5d34b3521f54d9e', 'Visitor', 'syaiful123@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -225,11 +234,11 @@ ALTER TABLE `transportations`
 --
 ALTER TABLE `travels`
   ADD PRIMARY KEY (`id_travel`),
-  ADD KEY `id_user` (`id_user`),
   ADD KEY `id_subdistrict` (`id_subdistrict`),
   ADD KEY `id_destination` (`id_destination`),
   ADD KEY `id_homestay` (`id_homestay`),
-  ADD KEY `id_transportation` (`id_transportation`);
+  ADD KEY `id_transportation` (`id_transportation`),
+  ADD KEY `travels_ibfk_1` (`id_user`);
 
 --
 -- Indeks untuk tabel `users`
@@ -245,6 +254,16 @@ ALTER TABLE `visitors`
   ADD KEY `id_province` (`id_province`),
   ADD KEY `id_district` (`id_district`),
   ADD KEY `id_subdistrict` (`id_subdistrict`);
+
+--
+-- AUTO_INCREMENT untuk tabel yang dibuang
+--
+
+--
+-- AUTO_INCREMENT untuk tabel `users`
+--
+ALTER TABLE `users`
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
