@@ -7,6 +7,7 @@ if (isset($_POST['submit'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
     $konfir = $_POST['konfir'];
+    $currtime = date('Y-m-d H:i:s');
 
     // Validasi panjang minimal 8 karakter dan minimal satu huruf besar
     if (strlen($password) < 8 || !preg_match("/[A-Z]/", $password)) {
@@ -25,7 +26,7 @@ if (isset($_POST['submit'])) {
             if ($password != md5($konfir)) {
                 $password_mismatch_error = "Password tidak sama";
             } else {
-                $query = "INSERT INTO users(username, email, password, level) VALUES ('$username', '$email', '$password', 'Visitor')";
+                $query = "INSERT INTO users(username, email, password, level,last_login) VALUES ('$username', '$email', '$password', 'Visitor','$currtime')";
 
                 $result = mysqli_query($conn, $query);
 
