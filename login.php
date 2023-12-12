@@ -111,12 +111,12 @@ if (isset($_POST['submit'])) {
             header('Location:index.php');
         } else {
             if ($password != $konfir) {
-                $password_mismatch_error = "Username atau Password salah";
+                header("Location:login.php?message=failure");
             }
         }
     } else {
         if ($password != $konfir) {
-            $password_mismatch_error = "Username atau Password salah";
+            header("Location:login.php?message=failure");
         }
     }
 }
@@ -129,96 +129,39 @@ if (isset($_POST['submit'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Form</title>
-
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f2f2f2;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-
-        div {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            width: 300px;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            margin-bottom: 5px;
-        }
-
-        input {
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        button {
-            background-color: #4caf50;
-            color: #fff;
-            padding: 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        span {
-            color: red;
-            margin-top: 5px;
-        }
-
-        p {
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        a {
-            color: #007bff;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
 
 <body>
-
-    <div>
-        <form name="login-form" action="<?php $_SERVER['PHP_SELF']; ?>" method="POST" class="login-form">
-            <label for="username">Username</label>
-            <input type="text" name="username" required>
-            <label for="password">Password</label>
-            <input type="password" name="password" required>
-            <?php if (isset($password_mismatch_error)) { ?>
-                <span><?php echo $password_mismatch_error; ?></span>
-            <?php } ?>
-            <button type="submit" name="submit">Login</button>
-            <script src="https://kit.fontawesome.com/d9b2e6872d.js" crossorigin="anonymous"></script>
-            <p>Belum punya akun? <a href="register.php"><b>Click Here!</b></a></p>
-            <a href="<?= $client->createAuthUrl(); ?>"><img src="assets/images/google-login.png" alt="button google"></a>
-        </form>
+    <div class="login-container">
+        <h1><a href="index.php"><i class="fa-solid fa-arrow-left"></i></a> Login Account</h1>
+        <div class="account-content">
+            <?php
+                if($_GET['message'] == "failure"){
+                    echo "<div class='login-notification' id='login-notification'><span>Username or password is incorrect!</span><a class='close-notification' onclick='notificationLogin();'>&times;</a></div>";
+                }else if($_GET['message'] == "registered"){
+                    echo "<div class='login-notification' id='login-notification'><span>You have successfully registered!</span><a class='close-notification' onclick='notificationLogin();'>&times;</a></div>";
+                }else if($_GET['message'] == "validate"){
+                    echo "<div class='login-notification' id='login-notification'><span>You must login first!</span><a class='close-notification' onclick='notificationLogin();'>&times;</a></div>";
+                }else if($_GET['message'] == "logout"){
+                    echo "<div class='login-notification' id='login-notification'><span>You have successfully logged out!</span><a class='close-notification' onclick='notificationLogin();'>&times;</a></div>";
+                }
+                ?>
+            <form name="login-form" class="account-form" action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
+                <label for="username">Username</label>
+                <input type="text" name="username" required>
+                <label for="password">Password</label>
+                <input type="password" name="password" required>
+                <span>Don't have an account? <a href="register.php"> Sign up</a></span>
+                <div class="logintype-container">
+                    <input type="submit" name="submit" value="Login" class="login-button">
+                    <span>or login with</span>
+                    <a href="<?= $client->createAuthUrl(); ?>"><img src="assets/images/google-login.png"
+                        alt="button google"></a>
+                </div>
+            </form>
+        </div>
     </div>
-
+    <script src="https://kit.fontawesome.com/d9b2e6872d.js" crossorigin="anonymous"></script>
 </body>
-
 </html>

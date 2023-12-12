@@ -9,6 +9,7 @@ $client = new Google_Client();
 
 $client->revokeToken($access_token);
 
+session_unset();
 session_destroy();
 header('location:index.php');
 

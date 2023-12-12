@@ -1,169 +1,28 @@
-const audio = document.getElementById('myAudio');
-const audioFirst = document.getElementById('audioFirst');
-const audioSecond = document.getElementById('audioSecond');
-const audioThird = document.getElementById('audioThird');
-const audioFourth = document.getElementById('audioFourth');
+window.addEventListener('load', function () {
+  window.scrollTo(0, 0); // Pindahkan ke posisi atas halaman
+});
+
 const nav = document.getElementById('navigation-bar');
-const hero = document.getElementById('hero-container');
-const sectionRevealed = document.getElementById('section-revealed');
-const revealedTitle = document.getElementById('revealed-title');
-const firstSection = document.getElementById('first-section');
-const secondSection = document.getElementById('second-section');
-const thirdSection = document.getElementById('third-section');
-const fourthSection = document.getElementById('fourth-section');
+const hero = document.getElementById('hero-section');
 
-let firstCount = 0;
+function updateTransportationClass() {
+  var transportationDropdown = document.getElementById("transportation");
+  var transportationClassDropdown = document.getElementById("kategori");
 
-function firstSpoiler() {
-  firstCount++;
-  audio.play();
-  audioFirst.play();
-  audioSecond.pause();
-  audioSecond.currentTime = 0;
-  audioThird.pause();
-  audioThird.currentTime = 0;
-  audioFourth.pause();
-  audioFourth.currentTime = 0;
+  // Reset the transportation class dropdown
+  transportationClassDropdown.innerHTML = '<option value="" disabled selected> Transport Class</option>';
 
-  nav.style.filter = "brightness(20%)";
-  hero.style.filter = "brightness(20%)";
-  revealedTitle.style.filter = "brightness(20%)";
-  firstSection.style.filter = "brightness(100%)";
-  secondSection.style.filter = "brightness(20%)";
-  thirdSection.style.filter = "brightness(20%)";
-  fourthSection.style.filter = "brightness(20%)";
-  sectionRevealed.style.background = "#020508";
-
-  if (firstCount == 2) {
-    nav.style.filter = "brightness(100%)";
-    hero.style.filter = "brightness(100%)";
-    revealedTitle.style.filter = "brightness(100%)";
-    firstSection.style.filter = "brightness(100%)";
-    secondSection.style.filter = "brightness(100%)";
-    thirdSection.style.filter = "brightness(100%)";
-    fourthSection.style.filter = "brightness(100%)";
-    sectionRevealed.style.background = "#0d1928";
-
-    audioFirst.pause();
-    audioFirst.currentTime = 0;
-    firstCount = 0;
+  // Enable or disable the transportation class dropdown based on the selected transportation
+  if (transportationDropdown.value === "Train") {
+      // If Train is selected, allow both Ekonomi and Eksekutif classes
+      transportationClassDropdown.innerHTML += '<option value="Ekonomi">Ekonomi</option>';
+      transportationClassDropdown.innerHTML += '<option value="Eksekutif">Eksekutif</option>';
+  } else {
+      // If Vehicle or Airline is selected, only allow Ekonomi class
+      transportationClassDropdown.innerHTML += '<option value="Ekonomi">Ekonomi</option>';
   }
+  // Call the function to update the Hotel Class dropdown as well
 }
-
-let secondCount = 0;
-
-function secondSpoiler() {
-  secondCount++;
-  audio.play();
-  audioSecond.play();
-  audioFirst.pause();
-  audioFirst.currentTime = 0;
-  audioThird.pause();
-  audioThird.currentTime = 0;
-  audioFourth.pause();
-  audioFourth.currentTime = 0;
-
-  nav.style.filter = "brightness(20%)";
-  hero.style.filter = "brightness(20%)";
-  revealedTitle.style.filter = "brightness(20%)";
-  firstSection.style.filter = "brightness(20%)";
-  secondSection.style.filter = "brightness(100%)";
-  thirdSection.style.filter = "brightness(20%)";
-  fourthSection.style.filter = "brightness(20%)";
-  sectionRevealed.style.background = "#020508";
-
-  if (secondCount == 2) {
-    nav.style.filter = "brightness(100%)";
-    hero.style.filter = "brightness(100%)";
-    revealedTitle.style.filter = "brightness(100%)";
-    firstSection.style.filter = "brightness(100%)";
-    secondSection.style.filter = "brightness(100%)";
-    thirdSection.style.filter = "brightness(100%)";
-    fourthSection.style.filter = "brightness(100%)";
-    sectionRevealed.style.background = "#0d1928";
-
-    audioSecond.pause();
-    audioSecond.currentTime = 0;
-    secondCount = 0;
-  }
-}
-
-let thirdCount = 0;
-
-function thirdSpoiler() {
-  thirdCount++;
-  audio.play();
-  audioThird.play();
-  audioFirst.pause();
-  audioFirst.currentTime = 0;
-  audioSecond.pause();
-  audioSecond.currentTime = 0;
-  audioFourth.pause();
-  audioFourth.currentTime = 0;
-
-  nav.style.filter = "brightness(20%)";
-  hero.style.filter = "brightness(20%)";
-  revealedTitle.style.filter = "brightness(20%)";
-  firstSection.style.filter = "brightness(20%)";
-  secondSection.style.filter = "brightness(20%)";
-  thirdSection.style.filter = "brightness(100%)";
-  fourthSection.style.filter = "brightness(20%)";
-  sectionRevealed.style.background = "#020508";
-
-  if (thirdCount == 2) {
-    nav.style.filter = "brightness(100%)";
-    hero.style.filter = "brightness(100%)";
-    revealedTitle.style.filter = "brightness(100%)";
-    firstSection.style.filter = "brightness(100%)";
-    secondSection.style.filter = "brightness(100%)";
-    thirdSection.style.filter = "brightness(100%)";
-    fourthSection.style.filter = "brightness(100%)";
-    sectionRevealed.style.background = "#0d1928";
-
-    audioThird.pause();
-    audioThird.currentTime = 0;
-    thirdCount = 0;
-  }
-}
-
-let fourthCount = 0;
-
-function fourthSpoiler() {
-  fourthCount++;
-  audio.play();
-  audioFourth.play();
-  audioFirst.pause();
-  audioFirst.currentTime = 0;
-  audioSecond.pause();
-  audioSecond.currentTime = 0;
-  audioThird.pause();
-  audioThird.currentTime = 0;
-
-  nav.style.filter = "brightness(20%)";
-  hero.style.filter = "brightness(20%)";
-  revealedTitle.style.filter = "brightness(20%)";
-  firstSection.style.filter = "brightness(20%)";
-  secondSection.style.filter = "brightness(20%)";
-  thirdSection.style.filter = "brightness(20%)";
-  fourthSection.style.filter = "brightness(100%)";
-  sectionRevealed.style.background = "#020508";
-
-  if (fourthCount == 2) {
-    nav.style.filter = "brightness(100%)";
-    hero.style.filter = "brightness(100%)";
-    revealedTitle.style.filter = "brightness(100%)";
-    firstSection.style.filter = "brightness(100%)";
-    secondSection.style.filter = "brightness(100%)";
-    thirdSection.style.filter = "brightness(100%)";
-    fourthSection.style.filter = "brightness(100%)";
-    sectionRevealed.style.background = "#0d1928";
-
-    audioFourth.pause();
-    audioFourth.currentTime = 0;
-    fourthCount = 0;
-  }
-}
-
 
 setInterval(function () {
   let web = document.getElementById('web');
@@ -186,34 +45,15 @@ setInterval(function () {
   }
 }, 5000);
 
-function toggleSpoiler(spoilerElement, isInvertedCollapse, isInvertedExpand) {
-  let isCollapsing = spoilerElement.classList.contains('expanded');
-  let heightBefore = spoilerElement.offsetHeight;
-  let offsetBefore = window.pageYOffset;
-  spoilerElement.classList.toggle('instant', true);
-  spoilerElement.classList.toggle('expanded', !isCollapsing);
-  let isScrollRequired = (isCollapsing && isInvertedCollapse) ||
-    (!isCollapsing && isInvertedExpand);
-  if (isScrollRequired) {
-    let heightAfter = spoilerElement.offsetHeight;
-    let heightDelta = heightAfter - heightBefore;
-    window.scrollTo(0, offsetBefore + heightDelta);
-  }
-}
-
-for (let el of document.querySelectorAll('.spoiler-btn-top')) {
-  el.addEventListener('click', e => toggleSpoiler(el.parentNode));
-}
-
-
 /* Index.php */
 document.addEventListener("DOMContentLoaded", function () {
   const navToggle = document.getElementById("nav-toggle");
   const navList = document.querySelector("nav ul");
   const navigationBar = document.getElementById("navigation-bar");
   const windowHeight = 450;
-  const galleryHeight = 1620;
+  const galleryHeight = 1630;
   const articleHeight = 2200;
+  const currentWidth = document.documentElement.clientWidth;
   let isSticky = false;
 
   navToggle.addEventListener("click", function () {
@@ -238,7 +78,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function galleryScroll() {
     if (window.scrollY > galleryHeight) {
-      navigationBar.classList.add("transparent");
+      if (currentWidth < 900) {
+        navigationBar.classList.remove("transparent");
+      } else {
+        navigationBar.classList.add("transparent");
+      }
     } else {
       navigationBar.classList.remove("transparent");
     }
@@ -246,11 +90,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function articleScroll() {
     if (window.scrollY > articleHeight) {
-      navigationBar.classList.remove("transparent");
-      navigationBar.classList.add("none");
+      if (currentWidth < 900) {
+        navigationBar.classList.remove("transparent");
+        navigationBar.classList.remove("none");
+      } else {
+        navigationBar.classList.remove("transparent");
+        navigationBar.classList.add("none");
+      }
     } else if (window.scrollY > galleryHeight && window.scrollY < articleHeight) {
-      navigationBar.classList.add("transparent");
-      navigationBar.classList.remove("none");
+      if (currentWidth < 900) {
+        navigationBar.classList.remove("transparent");
+        navigationBar.classList.remove("none");
+      } else {
+        navigationBar.classList.add("transparent");
+        navigationBar.classList.remove("none");
+      }
     } else if (window.scrollY < windowHeight) {
       navigationBar.classList.remove("none");
     } else if (window.scrollY < articleHeight) {
@@ -266,8 +120,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-let hasDisplayed = false;
-let galleryDisplayed = false;
 
 document.addEventListener("scroll", function () {
   let displayTitle = document.querySelector(".display-title");
@@ -302,87 +154,194 @@ document.addEventListener("scroll", function () {
       function () {
         if (displayFooter.classList.contains("show")) {
           floatingBar.classList.add("show");
-          hasDisplayed = true;
         }
       }, 2400
     );
 
   }
 
-  if (hasDisplayed) {
-    function galleryTransition() {
-      let destinationHeader = document.querySelector(".destination-header");
-      let destinationParagraph = document.querySelector(".destination-paragraph");
-      let galleryImage = document.getElementById("gallery-image");
-      let scrollPosition = window.scrollY;
-      let windowHeight = 800;
+  function galleryTransition() {
+    let destinationHeader = document.querySelector(".destination-header");
+    let destinationParagraph = document.querySelector(".destination-paragraph");
+    let galleryImage = document.getElementById("gallery-image");
+    let scrollPosition = window.scrollY;
+    let windowHeight = 1140;
 
-      setTimeout(
-        function () {
-          if (scrollPosition > windowHeight) {
-            destinationHeader.classList.add("show");
-            destinationParagraph.classList.add("show");
-          }
-        }, 400
-      );
+    setTimeout(
+      function () {
+        if (scrollPosition > windowHeight) {
+          destinationHeader.classList.add("show");
+          destinationParagraph.classList.add("show");
+        }
+      }, 600
+    );
 
-      setTimeout(
-        function () {
-          if (destinationParagraph.classList.contains("show")) {
-            galleryImage.classList.add("show");
-            galleryDisplayed = true;
-          }
-        }, 1000
-      );
-    }
-    galleryTransition();
+    setTimeout(
+      function () {
+        if (destinationParagraph.classList.contains("show")) {
+          galleryImage.classList.add("show");
+        }
+      }, 1300
+    );
   }
 
-  if (galleryDisplayed) {
-    function articleTransition() {
-      let articleTitle = document.querySelector(".article-title");
-      let listFirst = document.querySelector(".list-first");
-      let listSecond = document.querySelector(".list-second");
-      let listThird = document.querySelector(".list-third");
-      let scrollPosition = window.scrollY;
-      let windowHeight = 1600;
 
-      // Menentukan kapan animasi harus dimulai
-      if (scrollPosition > windowHeight) {
-        articleTitle.classList.add("show");
-      }
-      setTimeout(
-        function () {
-          if (articleTitle.classList.contains("show")) {
-            listFirst.classList.add("show");
-          }
-        }, 2000
-      );
+  function articleTransition() {
+    let articleTitle = document.querySelector(".article-title");
+    let listFirst = document.querySelector(".list-first");
+    let listSecond = document.querySelector(".list-second");
+    let listThird = document.querySelector(".list-third");
+    let arrowHome = document.querySelector(".arrow-home");
+    let scrollPosition = window.scrollY;
+    let windowHeight = 1600;
+    let arrowHeight = 1600;
 
-      setTimeout(
-        function () {
-          if (listFirst.classList.contains("show")) {
-            listSecond.classList.add("show");
-          }
-        }, 3200
-      );
-      setTimeout(
-        function () {
-          if (listSecond.classList.contains("show")) {
-            listThird.classList.add("show");
-          }
-        }, 4400
-      );
+    if (scrollPosition > arrowHeight) {
+      arrowHome.classList.add("display");
+    } else {
+      arrowHome.classList.remove("display");
     }
-    articleTransition();
+    // Menentukan kapan animasi harus dimulai
+    if (scrollPosition > windowHeight) {
+      articleTitle.classList.add("show");
+    }
+    setTimeout(
+      function () {
+        if (articleTitle.classList.contains("show")) {
+          listFirst.classList.add("show");
+        }
+      }, 2000
+    );
+
+    setTimeout(
+      function () {
+        if (listFirst.classList.contains("show")) {
+          listSecond.classList.add("show");
+        }
+      }, 2900
+    );
+    setTimeout(
+      function () {
+        if (listSecond.classList.contains("show")) {
+          listThird.classList.add("show");
+        }
+      }, 3800
+    );
   }
 
   window.addEventListener("scroll", function () {
     displayTransition();
-    articleScroll();
+    galleryTransition();
+    articleTransition();
   });
 });
 
-document.addEventListener("scroll", function () {
+function homeSection() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth' // Animasi scroll
+  });
+}
 
-});
+function articleSection() {
+  let currentWidth = document.documentElement.clientWidth;
+  if (currentWidth > 1900) {
+    window.scrollTo({
+      top: 3850,
+      behavior: 'smooth' // Animasi scroll
+    });
+  } else if (currentWidth > 1500) {
+    window.scrollTo({
+      top: 2580,
+      behavior: 'smooth' // Animasi scroll
+    });
+  } else if (currentWidth > 1200) {
+    window.scrollTo({
+      top: 2255,
+      behavior: 'smooth' // Animasi scroll
+    });
+  } else if (currentWidth > 900) {
+    window.scrollTo({
+      top: 4180,
+      behavior: 'smooth' // Animasi scroll
+    });
+  } else if (currentWidth < 900) {
+    window.scrollTo({
+      top: 4150,
+      behavior: 'smooth' // Animasi scroll
+    });
+  }
+}
+
+function destinationSection() {
+  let currentWidth = document.documentElement.clientWidth;
+  if (currentWidth > 1900) {
+    window.scrollTo({
+      top: 2850,
+      behavior: 'smooth' // Animasi scroll
+    });
+  } else if (currentWidth > 1500) {
+    window.scrollTo({
+      top: 1650,
+      behavior: 'smooth' // Animasi scroll
+    });
+  } else if (currentWidth > 1200) {
+    window.scrollTo({
+      top: 1455,
+      behavior: 'smooth' // Animasi scroll
+    });
+  } else if (currentWidth > 900) {
+    window.scrollTo({
+      top: 2650,
+      behavior: 'smooth' // Animasi scroll
+    });
+  } else if (currentWidth < 900) {
+    window.scrollTo({
+      top: 1380,
+      behavior: 'smooth' // Animasi scroll
+    });
+  }
+}
+
+let dropdownClick = 0;
+
+function trackTrips(){
+  let modal = document.getElementById("myModal");
+  let btn = document.getElementById("tracking");
+  let span = document.getElementsByClassName("close")[0];
+  let myDropdown = document.getElementById("myDropdown");
+
+  btn.onclick = function () {
+    modal.style.display = "block";
+    if (myDropdown.classList.contains('show')) {
+      myDropdown.classList.remove('show');
+      dropdownClick = 1;
+    }
+  }
+  span.onclick = function () {
+    modal.style.display = "none";
+    dropdownClick = 1;
+  }
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+}
+
+// Fungsi yang tidak perlu menambahkan event listener
+function dropdownNav() {
+    let myDropdown = document.getElementById("myDropdown");
+  
+    // Mengecek apakah yang diklik bukan bagian dari dropdown
+    if (!event.target.matches('.dropbtn')) {
+      if (dropdownClick === 0) {
+        myDropdown.classList.add('show');
+        dropdownClick = 1;
+      } else {
+        myDropdown.classList.remove('show');
+        dropdownClick = 0;
+      }
+    }
+}
+

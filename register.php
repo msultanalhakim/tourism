@@ -11,7 +11,7 @@ if (isset($_POST['submit'])) {
 
     // Validasi panjang minimal 8 karakter dan minimal satu huruf besar
     if (strlen($password) < 8 || !preg_match("/[A-Z]/", $password)) {
-        $password_error = "Password minimal 8 karakter dan 1 huruf besar.";
+        header("Location:register.php?message=requirement");
     } else {
         $password = md5($password);
 
@@ -20,21 +20,21 @@ if (isset($_POST['submit'])) {
         $check = mysqli_num_rows($filter);
 
         if ($check > 0) {
-            header('Location:register.php?pesan=eksis');
+            header('Location:register.php?message=exist');
             exit;
         } else {
             if ($password != md5($konfir)) {
-                $password_mismatch_error = "Password tidak sama";
+                header("Location:register.php?message=unsychronize");
             } else {
                 $query = "INSERT INTO users(username, email, password, level,last_login) VALUES ('$username', '$email', '$password', 'Visitor','$currtime')";
 
                 $result = mysqli_query($conn, $query);
 
                 if ($result) {
-                    header('Location:index.php?pesan=berhasil');
+                    header('Location:login.php?message=registered');
                     exit;
                 } else {
-                    $error_message = "Gagal menyimpan data. Pesan kesalahan: " . mysqli_error($koneksi);
+                    header("Location:register.php?message=failure");
                 }
             }
         }
@@ -46,94 +46,43 @@ if (isset($_POST['submit'])) {
 <html lang="en">
 
 <head>
+    <title>Register</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-    <style>
-        body {
-            background-color: #f5f5f5;
-            font-family: 'Arial', sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .register-container {
-            max-width: 400px;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .register-container h1 {
-            color: #3498db;
-        }
-
-        .register-form label {
-            display: block;
-            margin: 10px 0 5px;
-            text-align: left;
-        }
-
-        .register-form input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        .register-form button {
-            background-color: #3498db;
-            color: #fff;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .register-form button:hover {
-            background-color: #2980b9;
-        }
-
-        .error-message {
-            color: red;
-            margin-top: 8px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
 </head>
 
 <body>
     <div class="register-container">
-        <h1>Selamat Datang!</h1>
-        <form name="login-form" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST" class="register-form" enctype="multipart/form-data">
-            <label for="name">Username</label>
-            <input type="text" name="username" required>
-            <label for="email">Email</label>
-            <input type="email" name="email" required>
-            <label for="password">Password</label>
-            <input type="password" name="password" required>
-            <label for="confirm-password">Konfirmasi Password</label>
-            <input type="password" name="konfir" required>
-            <?php if (isset($password_mismatch_error) || isset($password_error)) { ?>
-                <span class="error-message">
-                    <?php echo isset($password_mismatch_error) ? $password_mismatch_error : $password_error; ?>
-                </span>
-            <?php } ?>
-            <?php if (isset($error_message)) { ?>
-                <span class="error-message"><?php echo $error_message; ?></span>
-            <?php } ?>
-            <button type="submit" name="submit">Daftar</button>
-            <div class="alternative">
-                <p>Sudah punya akun? <a href="index.php">Masuk</a></p>
-            </div>
-        </form>
+        <h1><a href="login.php"><i class="fa-solid fa-arrow-left"></i></a> Register Account</h1>
+        <div class="account-content">
+            <?php
+                if($_GET['message'] == "failure"){
+                    echo "<div class='register-notification' id='register-notification'><span>Registration was unsuccessfully!</span><a class='close-notification' onclick='notificationRegister();'>&times;</a></div>";
+                }else if($_GET['message'] == "unsynchronized"){
+                    echo "<div class='register-notification' id='register-notification'><span>Registration password doesn't match!</span><a class='close-notification' onclick='notificationRegister();'>&times;</a></div>";
+                }else if($_GET['message'] == "exists"){
+                    echo "<div class='register-notification' id='register-notification'><span>Username or email already exists!</span><a class='close-notification' onclick='notificationRegister();'>&times;</a></div>";
+                }else if($_GET['message'] == "requirement"){
+                    echo "<div class='register-notification' id='register-notification'><span>Minimum password must be 8 characters and 1 capital letter!</span><a class='close-notification' onclick='notificationRegister();'>&times;</a></div>";
+                }
+                ?>
+            <form name="register-form" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST"
+                class="account-form" enctype="multipart/form-data">
+                <label for="username">Username</label>
+                <input type="text" name="username" required>
+                <label for="username">Email</label>
+                <input type="email" name="email" required>
+                <label for="password">Password</label>
+                <input type="password" name="password" required>
+                <label for="password">Confirm Password</label>
+                <input type="password" name="confirm_password" required>
+                <span>Already have an account? <a href="login.php"> Login</a></span>
+                <input type="submit" name="submit" value="Register" class="register-button">
+            </form>
+        </div>
     </div>
+    <script src="https://kit.fontawesome.com/d9b2e6872d.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

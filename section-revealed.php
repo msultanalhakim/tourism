@@ -1,8 +1,25 @@
-
+<html>
+    <head>
+        <title></title>
+        <meta name="viewport" content="width-device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+        <style>
+            #revealed-title h2 a{
+                text-decoration: none;
+                color: white;
+                -webkit-transition: 0.2s;
+                transition: 0.2s;
+            }
+            #revealed-title h2 a:hover{
+                color: #767676;
+            }
+        </style>
+    </head>
+    <body>
     <div class="section-revealed" id="section-revealed">
         <div class="revealed-content">
             <div id="revealed-title">
-                <h2>Unrevealed Mystery</h2>
+                <h2><a href="index.php"><i class="fa-solid fa-arrow-left"></i></a> Unrevealed Mystery</h2>
                 <span>Craft your journey, weave your own narrative, and unveil the mystery that unspoken mystery</span>
             </div>
             <audio id="myAudio" controls hidden>
@@ -77,3 +94,8 @@
             </div>
         </div>
     </div>
+    <script src="https://kit.fontawesome.com/d9b2e6872d.js" crossorigin="anonymous"></script>
+    <script src="assets/js/section-revealed.js"></script>
+    </body>
+</html>
+    
