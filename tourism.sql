@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 08 Des 2023 pada 13.36
+-- Waktu pembuatan: 11 Des 2023 pada 15.57
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -24,62 +24,23 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `destinations`
---
-
-CREATE TABLE `destinations` (
-  `id_destination` int(11) NOT NULL,
-  `destination_name` varchar(50) DEFAULT NULL,
-  `destination_coordinate` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `destinations_category`
---
-
-CREATE TABLE `destinations_category` (
-  `id_category` int(11) NOT NULL,
-  `category_name` varchar(50) DEFAULT NULL,
-  `id_destination` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `districts`
---
-
-CREATE TABLE `districts` (
-  `id_district` int(11) NOT NULL,
-  `district_name` varchar(30) DEFAULT NULL,
-  `id_province` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Struktur dari tabel `homestays`
 --
 
 CREATE TABLE `homestays` (
   `id_homestay` int(11) NOT NULL,
-  `homestay_name` varchar(50) DEFAULT NULL,
+  `Lokasi` varchar(50) DEFAULT NULL,
   `homestay_class` enum('Luxury','Regular') DEFAULT NULL,
-  `id_destination` int(11) DEFAULT NULL
+  `alamat` varchar(254) DEFAULT NULL,
+  `price` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
 --
--- Struktur dari tabel `provinces`
+-- Dumping data untuk tabel `homestays`
 --
 
-CREATE TABLE `provinces` (
-  `id_province` int(11) NOT NULL,
-  `province_name` varchar(30) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `homestays` (`id_homestay`, `Lokasi`, `homestay_class`, `alamat`, `price`) VALUES
+(1, 'Jakarta', 'Luxury', 'Kelapa Gading', 450000.00);
 
 -- --------------------------------------------------------
 
@@ -95,44 +56,24 @@ CREATE TABLE `questions` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `sub_district`
---
-
-CREATE TABLE `sub_district` (
-  `id_subdistrict` int(11) NOT NULL,
-  `subdistrict_name` varchar(30) DEFAULT NULL,
-  `coordinate` varchar(255) DEFAULT NULL,
-  `id_province` int(11) DEFAULT NULL,
-  `id_district` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Struktur dari tabel `transportations`
 --
 
 CREATE TABLE `transportations` (
   `id_transportation` int(11) NOT NULL,
-  `transportation_name` enum('Airline','Train','Vehicle') DEFAULT NULL
+  `transportation_name` enum('Airline','Train','Vehicle') DEFAULT NULL,
+  `initial_goal` varchar(255) NOT NULL,
+  `final_destination` varchar(255) NOT NULL,
+  `price` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
 --
--- Struktur dari tabel `travels`
+-- Dumping data untuk tabel `transportations`
 --
 
-CREATE TABLE `travels` (
-  `id_travel` int(11) NOT NULL,
-  `id_user` int(11) DEFAULT NULL,
-  `id_subdistrict` int(11) DEFAULT NULL,
-  `id_destination` int(11) DEFAULT NULL,
-  `id_homestay` int(11) DEFAULT NULL,
-  `id_transportation` int(11) DEFAULT NULL,
-  `current_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `travel_date` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `transportations` (`id_transportation`, `transportation_name`, `initial_goal`, `final_destination`, `price`) VALUES
+(1, 'Train', 'Jakarta', 'Malang ', 350000.00),
+(2, 'Train', 'Bandung', 'Jakarta', 200000.00);
 
 -- --------------------------------------------------------
 
@@ -145,69 +86,32 @@ CREATE TABLE `users` (
   `username` varchar(50) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `level` enum('Administrator','Visitor') DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL
+  `email` varchar(255) DEFAULT NULL,
+  `oauth_id` varchar(255) NOT NULL,
+  `last_login` datetime DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `users`
 --
 
-INSERT INTO `users` (`id_user`, `username`, `password`, `level`, `email`) VALUES
-(1, 'rian', '7d30dd3e1bc962e890494ab50ab8c8a9', 'Visitor', 'alriansr@gmail.com'),
-(2, 'syaiful', 'fea55d95c4e1ec48b5d34b3521f54d9e', 'Visitor', 'syaiful123@gmail.com');
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `visitors`
---
-
-CREATE TABLE `visitors` (
-  `id_visitor` int(11) NOT NULL,
-  `visitor_firstname` varchar(50) DEFAULT NULL,
-  `visitor_lastname` varchar(50) DEFAULT NULL,
-  `visitor_lastlogin` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `id_province` int(11) DEFAULT NULL,
-  `id_district` int(11) DEFAULT NULL,
-  `id_subdistrict` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `users` (`id_user`, `username`, `password`, `level`, `email`, `oauth_id`, `last_login`, `created_at`) VALUES
+(3, 'AHMAD RIAN SYAIFULLAH RITONGA 1', NULL, 'Visitor', 'ahmad.ritonga@mhs.unsoed.ac.id', '117121434478025538788', '2023-12-10 21:01:03', '2023-12-10 14:01:03'),
+(4, 'Ahmad Rian', '7d30dd3e1bc962e890494ab50ab8c8a9', 'Visitor', 'ahmad@gmail.com', '', '2023-12-09 12:54:10', '2023-12-11 13:46:22'),
+(5, 'soedirman technophoria', NULL, 'Visitor', 'soedirmantechnophoria2023@gmail.com', '117805581099493247556', '2023-12-10 12:09:57', '2023-12-10 05:09:57'),
+(6, 'paguyuban programming', NULL, 'Visitor', 'paguyubansinauprogramming@gmail.com', '118333435663996870532', '2023-12-10 12:10:36', '2023-12-10 05:10:36'),
+(8, 'admin', '0192023a7bbd73250516f069df18b500', 'Administrator', 'alriansr@gmail.com', '', '2023-12-11 20:34:41', '2023-12-11 13:49:44');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indeks untuk tabel `destinations`
---
-ALTER TABLE `destinations`
-  ADD PRIMARY KEY (`id_destination`);
-
---
--- Indeks untuk tabel `destinations_category`
---
-ALTER TABLE `destinations_category`
-  ADD PRIMARY KEY (`id_category`),
-  ADD KEY `id_destination` (`id_destination`);
-
---
--- Indeks untuk tabel `districts`
---
-ALTER TABLE `districts`
-  ADD PRIMARY KEY (`id_district`),
-  ADD KEY `id_province` (`id_province`);
-
---
 -- Indeks untuk tabel `homestays`
 --
 ALTER TABLE `homestays`
-  ADD PRIMARY KEY (`id_homestay`),
-  ADD KEY `id_destination` (`id_destination`);
-
---
--- Indeks untuk tabel `provinces`
---
-ALTER TABLE `provinces`
-  ADD PRIMARY KEY (`id_province`);
+  ADD PRIMARY KEY (`id_homestay`);
 
 --
 -- Indeks untuk tabel `questions`
@@ -216,29 +120,10 @@ ALTER TABLE `questions`
   ADD PRIMARY KEY (`id_question`);
 
 --
--- Indeks untuk tabel `sub_district`
---
-ALTER TABLE `sub_district`
-  ADD PRIMARY KEY (`id_subdistrict`),
-  ADD KEY `id_province` (`id_province`),
-  ADD KEY `id_district` (`id_district`);
-
---
 -- Indeks untuk tabel `transportations`
 --
 ALTER TABLE `transportations`
   ADD PRIMARY KEY (`id_transportation`);
-
---
--- Indeks untuk tabel `travels`
---
-ALTER TABLE `travels`
-  ADD PRIMARY KEY (`id_travel`),
-  ADD KEY `id_subdistrict` (`id_subdistrict`),
-  ADD KEY `id_destination` (`id_destination`),
-  ADD KEY `id_homestay` (`id_homestay`),
-  ADD KEY `id_transportation` (`id_transportation`),
-  ADD KEY `travels_ibfk_1` (`id_user`);
 
 --
 -- Indeks untuk tabel `users`
@@ -247,70 +132,26 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id_user`);
 
 --
--- Indeks untuk tabel `visitors`
---
-ALTER TABLE `visitors`
-  ADD PRIMARY KEY (`id_visitor`),
-  ADD KEY `id_province` (`id_province`),
-  ADD KEY `id_district` (`id_district`),
-  ADD KEY `id_subdistrict` (`id_subdistrict`);
-
---
 -- AUTO_INCREMENT untuk tabel yang dibuang
 --
+
+--
+-- AUTO_INCREMENT untuk tabel `homestays`
+--
+ALTER TABLE `homestays`
+  MODIFY `id_homestay` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT untuk tabel `transportations`
+--
+ALTER TABLE `transportations`
+  MODIFY `id_transportation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
---
-
---
--- Ketidakleluasaan untuk tabel `destinations_category`
---
-ALTER TABLE `destinations_category`
-  ADD CONSTRAINT `destinations_category_ibfk_1` FOREIGN KEY (`id_destination`) REFERENCES `destinations` (`id_destination`);
-
---
--- Ketidakleluasaan untuk tabel `districts`
---
-ALTER TABLE `districts`
-  ADD CONSTRAINT `districts_ibfk_1` FOREIGN KEY (`id_province`) REFERENCES `provinces` (`id_province`);
-
---
--- Ketidakleluasaan untuk tabel `homestays`
---
-ALTER TABLE `homestays`
-  ADD CONSTRAINT `homestays_ibfk_1` FOREIGN KEY (`id_destination`) REFERENCES `destinations` (`id_destination`);
-
---
--- Ketidakleluasaan untuk tabel `sub_district`
---
-ALTER TABLE `sub_district`
-  ADD CONSTRAINT `sub_district_ibfk_1` FOREIGN KEY (`id_province`) REFERENCES `provinces` (`id_province`),
-  ADD CONSTRAINT `sub_district_ibfk_2` FOREIGN KEY (`id_district`) REFERENCES `districts` (`id_district`);
-
---
--- Ketidakleluasaan untuk tabel `travels`
---
-ALTER TABLE `travels`
-  ADD CONSTRAINT `travels_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`),
-  ADD CONSTRAINT `travels_ibfk_2` FOREIGN KEY (`id_subdistrict`) REFERENCES `sub_district` (`id_subdistrict`),
-  ADD CONSTRAINT `travels_ibfk_3` FOREIGN KEY (`id_destination`) REFERENCES `destinations` (`id_destination`),
-  ADD CONSTRAINT `travels_ibfk_4` FOREIGN KEY (`id_homestay`) REFERENCES `homestays` (`id_homestay`),
-  ADD CONSTRAINT `travels_ibfk_5` FOREIGN KEY (`id_transportation`) REFERENCES `transportations` (`id_transportation`);
-
---
--- Ketidakleluasaan untuk tabel `visitors`
---
-ALTER TABLE `visitors`
-  ADD CONSTRAINT `visitors_ibfk_1` FOREIGN KEY (`id_province`) REFERENCES `provinces` (`id_province`),
-  ADD CONSTRAINT `visitors_ibfk_2` FOREIGN KEY (`id_district`) REFERENCES `districts` (`id_district`),
-  ADD CONSTRAINT `visitors_ibfk_3` FOREIGN KEY (`id_subdistrict`) REFERENCES `sub_district` (`id_subdistrict`);
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

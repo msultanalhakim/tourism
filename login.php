@@ -9,12 +9,12 @@ if(isset($_SESSION['logged_in'])){
 include('connection.php');
 require_once 'vendor/autoload.php';
 use Google\Service\Oauth2;
-use Google\Service\SQLAdmin\TruncateLogContext;
+
 
 //tampung client id secret dan redirect uri
 $client_id      = "933192687315-9nb4gqj1ltq5pune5g2cbmlk0k02sm6b.apps.googleusercontent.com";
 $client_secret  = "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";
-$redirect_uri   = "http://localhost/tourism/index.php";
+$redirect_uri   = "http://localhost/tourism/login.php";
 
 //inisiasi google client
 $client = new Google_Client();
@@ -86,7 +86,7 @@ if (isset($_POST['submit'])) {
             $_SESSION['username'] = $username;
             $_SESSION['email'] = $data['email'];
             $_SESSION['level'] = "Administrator";
-            header('Location:questions.php');
+            header('Location:admin.php');
         } elseif ($data['level'] == "Visitor") {
             $_SESSION['username'] = $username;
             $_SESSION['email'] = $data['email'];
