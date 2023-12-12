@@ -303,6 +303,36 @@ function destinationSection() {
   }
 }
 
+function discoverSection() {
+  let currentWidth = document.documentElement.clientWidth;
+  if (currentWidth > 1900) {
+    window.scrollTo({
+      top: 830,
+      behavior: 'smooth' // Animasi scroll
+    });
+  } else if (currentWidth > 1500) {
+    window.scrollTo({
+      top: 830,
+      behavior: 'smooth' // Animasi scroll
+    });
+  } else if (currentWidth > 1200) {
+    window.scrollTo({
+      top: 830,
+      behavior: 'smooth' // Animasi scroll
+    });
+  } else if (currentWidth > 900) {
+    window.scrollTo({
+      top: 830,
+      behavior: 'smooth' // Animasi scroll
+    });
+  } else if (currentWidth < 900) {
+    window.scrollTo({
+      top: 830,
+      behavior: 'smooth' // Animasi scroll
+    });
+  }
+}
+
 let dropdownClick = 0;
 
 function trackTrips(){
