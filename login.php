@@ -2,19 +2,19 @@
 date_default_timezone_set('Asia/Jakarta');
 session_start();
 
-if(isset($_SESSION['logged_in'])){
-    header('location: questions.php');
-}
+// if(isset($_SESSION['logged_in'])){
+//     header('location: index.php');
+// }
 
 include('connection.php');
 require_once 'vendor/autoload.php';
+
 use Google\Service\Oauth2;
-use Google\Service\SQLAdmin\TruncateLogContext;
 
 //tampung client id secret dan redirect uri
 $client_id      = "933192687315-9nb4gqj1ltq5pune5g2cbmlk0k02sm6b.apps.googleusercontent.com";
 $client_secret  = "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";
-$redirect_uri   = "http://localhost/tourism/index.php";
+$redirect_uri   = "http://localhost/tourism/login.php";
 
 //inisiasi google client
 $client = new Google_Client();
@@ -27,48 +27,65 @@ $client->setRedirectUri($redirect_uri);
 $client->addScope('email');
 $client->addScope('profile');
 
-if(isset($_GET['code'])){
+if (isset($_GET['code'])) {
     $token  = $client->fetchAccessTokenWithAuthCode($_GET['code']);
 
-    if(!isset($token['error'])){
+    if (!isset($token['error'])) {
         $client->setAccessToken($token['access_token']);
 
         //inisiasi google service oauth2
         $service = new Oauth2($client);
-        $profile    = $service->userinfo->get();
+        $profile = $service->userinfo->get();
 
         $g_name = $profile['name'];
-        $g_email=$profile['email'];
-        $g_id   =$profile['id'];
+        $g_email = $profile['email'];
+        $g_id   = $profile['id'];
         $currtime = date('Y-m-d H:i:s');
 
-
-        $query_check   = 'SELECT * from users WHERE oauth_id = "'.$g_id.'" ';
-        $run_query_check = mysqli_query($conn,$query_check);
+        $query_check   = 'SELECT * from users WHERE oauth_id = "' . $g_id . '"';
+        $run_query_check = mysqli_query($conn, $query_check);
         $d = mysqli_fetch_object($run_query_check);
 
-        if($d){
-            $query_update = 'UPDATE users set username = "'.$g_name.'", email = "'.$g_email.'",
-            last_login = "'.$currtime.'" WHERE oauth_id = "'.$g_id.'"';
-            $run_query_update = mysqli_query($conn,$query_update);
-        }else{
+        if ($d) {
+            $query_update = 'UPDATE users set username = "' . $g_name . '", email = "' . $g_email . '",
+            last_login = "' . $currtime . '" WHERE oauth_id = "' . $g_id . '"';
+        } else {
             $query_insert = 'INSERT into users (username,email, level,oauth_id,last_login) 
-            VALUE ("'.$g_name.'","'.$g_email.'","Visitor","'.$g_id.'","'.$currtime.'")';
-            $run_query_insert = mysqli_query($conn,$query_insert);
+            VALUE ("' . $g_name . '","' . $g_email . '","Visitor","' . $g_id . '","' . $currtime . '")';
         }
 
-        $_SESSION['logged in'] = true;
-        $_SESSION['access_token'] = $token['access_token'];
-        $_SESSION['uname'] = $g_name;
+        $run_query = mysqli_query($conn, isset($query_update) ? $query_update : $query_insert);
 
-        header('location:questions.php');
+        if ($run_query) {
+            $_SESSION['logged_in'] = true;
+            $_SESSION['access_token'] = $token['access_token'];
+            $_SESSION['uname'] = $g_name;
 
+            $query_user = 'SELECT * FROM users WHERE oauth_id = "' . $g_id . '"';
+            $result_user = mysqli_query($conn, $query_user);
 
-    }else{
+            if ($result_user) {
+                $data_user = mysqli_fetch_assoc($result_user);
+                if ($data_user['level'] == "Administrator") {
+                    $_SESSION['username'] = $g_name;
+                    $_SESSION['email'] = $g_email;
+                    $_SESSION['level'] = "Administrator";
+                    header('Location:admin.php');
+                } elseif ($data_user['level'] == "Visitor") {
+                    $_SESSION['username'] = $g_name;
+                    $_SESSION['email'] = $g_email;
+                    $_SESSION['level'] = "Visitor";
+                    header('Location:index.php');
+                }
+            } else {
+                echo "Login Gagal";
+            }
+        } else {
+            echo "Login Gagal";
+        }
+    } else {
         echo "Login Gagal";
     }
-
-   
 }
 
 if (isset($_POST['submit'])) {
@@ -79,19 +96,19 @@ if (isset($_POST['submit'])) {
 
     $query = "SELECT * FROM users WHERE (username = '$username' OR email = '$email') AND password = '$password'";
     $result = mysqli_query($conn, $query);
-    $check = mysqli_num_rows($result);
-    if ($check > 0) {
+
+    if ($result) {
         $data = mysqli_fetch_assoc($result);
         if ($data['level'] == "Administrator") {
             $_SESSION['username'] = $username;
             $_SESSION['email'] = $data['email'];
             $_SESSION['level'] = "Administrator";
-            header('Location:questions.php');
+            header('Location:admin.php');
         } elseif ($data['level'] == "Visitor") {
             $_SESSION['username'] = $username;
             $_SESSION['email'] = $data['email'];
             $_SESSION['level'] = "Visitor";
-            header('Location:questions.php');
+            header('Location:index.php');
         } else {
             if ($password != $konfir) {
                 $password_mismatch_error = "Username atau Password salah";
@@ -198,10 +215,10 @@ if (isset($_POST['submit'])) {
             <button type="submit" name="submit">Login</button>
             <script src="https://kit.fontawesome.com/d9b2e6872d.js" crossorigin="anonymous"></script>
             <p>Belum punya akun? <a href="register.php"><b>Click Here!</b></a></p>
-            <a href="<?= $client->createAuthUrl();?>"><img src="assets/images/google-login.png" alt="button google"></a>
+            <a href="<?= $client->createAuthUrl(); ?>"><img src="assets/images/google-login.png" alt="button google"></a>
         </form>
     </div>
-        
+
 </body>
 
 </html>

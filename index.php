@@ -1,3 +1,9 @@
+<?php
+session_start();
+include("connection.php");
+
+?>
+
 <html>
 <head>
     <title></title>
@@ -13,7 +19,8 @@
             <li><a href="#">Home</a></li>
             <li><a href="#">Destinations</a></li>
             <li><a href="#">Festival</a></li>
-            <li><a href="#">Track your trips</a></li>
+            <li><a href="pemesanan.php">Track your trips</a></li>
+            <li><a href="logout.php">logout</a></li>
             <li>
                 <?php
                 if(isset($_SESSION['username'])){
@@ -260,3 +267,4 @@
 </body>
 
 </html>
+
