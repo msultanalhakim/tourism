@@ -10,6 +10,6 @@ $client = new Google_Client();
 $client->revokeToken($access_token);
 
 session_destroy();
-header('location:questions.php');
+header('location:index.php');
 
 ?>

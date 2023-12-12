@@ -18,19 +18,6 @@ if ($_SESSION['level'] == "") {
     <h2>Daftar Pemesanan</h2>
 
     <form action="calculate.php" method="post">
-        <label for="transportation">Select Transportation:</label>
-        <select name="transportation" id="transportation" required onchange="updateTransportationClass()">
-            <option value="" disabled selected>--- Pilih Jenis Transportasi ---</option>
-            <option value="Airline">Airline</option>
-            <option value="Train">Train</option>
-            <option value="Vehicle">Vehicle</option>
-        </select><br>
-
-        <label for="transportation_class">Select Transportation Class:</label>
-        <select name="hotel" id="hotel" required>
-            <option value="" disabled selected>--- Pilih Class Transportasi ---</option>
-            <!-- Options will be dynamically populated based on the selected transportation -->
-        </select><br>
 
         <label for="from">From:</label>
         <select name="from" required>
@@ -54,6 +41,20 @@ if ($_SESSION['level'] == "") {
             ?>
         </select><br>
 
+        <label for="transportation">Select Transportation:</label>
+        <select name="transportation" id="transportation" required onchange="updateTransportationClass()">
+            <option value="" disabled selected>--- Pilih Jenis Transportasi ---</option>
+            <option value="Airline">Airline</option>
+            <option value="Train">Train</option>
+            <option value="Vehicle">Vehicle</option>
+        </select><br>
+
+        <label for="transportation_class">Select Transportation Class:</label>
+        <select name="kategori" id="kategori" required>
+            <option value="" disabled selected>--- Pilih Class Transportasi ---</option>
+            <!-- Options will be dynamically populated based on the selected transportation -->
+        </select><br>
+
         <label for="hotel">Hotel Class:</label>
         <select name="hotel" id="hotel" required>
             <option value="" disabled selected>--- Pilih Class Hotel ---</option>
@@ -71,7 +72,7 @@ if ($_SESSION['level'] == "") {
     <script>
     function updateTransportationClass() {
         var transportationDropdown = document.getElementById("transportation");
-        var transportationClassDropdown = document.getElementById("hotel");
+        var transportationClassDropdown = document.getElementById("kategori");
 
         // Reset the transportation class dropdown
         transportationClassDropdown.innerHTML = '<option value="" disabled selected>--- Pilih Class Transportasi ---</option>';
